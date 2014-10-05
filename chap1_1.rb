@@ -1,28 +1,25 @@
 class Chap1_1
-def initialize(val)
-@val= val
-@left = 0
-@right = (@val.size-1)
-$count=0
-end
+ def initialize(val)
+  @val= val
+  @left = 0
+  @right = (@val.size-1)
+  $count=0
+ end
 
 def logic
-
-while @left != @right 
-if @val[@left] == @val[@right] then
-$count = $count+1
-@right= @right-1
-else
-@right= @right-1
-end
-end
-@left= @left+1
-@right = (@val.size-1)
-if @left < @val.size-1
-logic  #recursive
-end
-
-
+ while @left != @right 
+  if @val[@left] == @val[@right] then
+	$count = $count+1
+	@right= @right-1
+  else
+	@right= @right-1
+  end
+  end
+	@left= @left+1
+	@right = (@val.size-1)
+  if @left < @val.size-1
+	logic  #recursive
+  end
 end
 end
 
