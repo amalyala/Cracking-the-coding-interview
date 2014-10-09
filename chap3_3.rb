@@ -5,8 +5,8 @@
 require 'colorize'
 
 class SetOfStacks
-
- # Initializing Hash Map to hold all the stacks and initial stack is created.
+ attr_accessor :stacks
+ # Initializing Hash to hold all the stacks and initial stack is created.
  def initialize
   @stacks = Hash.new # declaring hash to hold all stacks
   @each_stack_size = 3 # defining each stack size
@@ -19,12 +19,10 @@ class SetOfStacks
   # Checking if present stack is either full or not.
   if @stacks[@stack_number].size == @each_stack_size
    puts "Stack #{@stack_number} is Full. Creating another Stack ...".yellow
-   sleep 2   
    # This method creates another stack and pushes the value into it.
    create_another_stack(value)
   elsif @stacks[@stack_number].size <= @each_stack_size
     @stacks[@stack_number] << value
-    p @stacks
   end
  end
  
@@ -38,13 +36,15 @@ class SetOfStacks
  
  # Pop operation for the stack
  def pop
-  if @stacks[@stack_number].size == 0
+  if @stacks[@stack_number].size == 0 and @stack_number-1 != 0
    puts "Stack #{@stack_number} is empty. Popping from previous Stack".yellow
    # This method is called once current stack is empty and to pop from previous stack
    call_previous_stack   
   elsif @stacks[@stack_number].size > 0
+   puts "Popping ..."
    @stacks[@stack_number].pop   
-   p @stacks[@stack_number]
+  else
+   puts "No elements to Pop" .red
   end     
  end
  
@@ -58,16 +58,13 @@ end
 
 @obj = SetOfStacks.new
 @obj.push(4)
-@obj.push(47)
-@obj.push(4)
-@obj.push(47)
-@obj.push(4)
-@obj.push(47)
+@obj.push(5)
+@obj.push(6)
+@obj.push(7)
 @obj.pop
 @obj.pop
-@obj.pop
-@obj.pop
-@obj.pop
-@obj.pop
-@obj.pop
-puts @stacks
+puts "----------------"
+puts "Final Stack is ".green
+p @obj.stacks
+puts "----------------"
+
