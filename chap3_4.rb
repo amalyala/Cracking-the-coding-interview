@@ -23,7 +23,6 @@ class TowerOfHanoi
  # This method is initiated to start the problem. 
  # This code is influenced from http://rosettacode.org/wiki/Towers_of_Hanoi in ruby language.
  def startThePuzzle(no_of_disks,source=1,destination=3,aux=2)
-  puts "------------ #{source} #{destination} #{aux}--------------"
   if no_of_disks == 1
    @game_board[destination] << @game_board[source].pop
    puts "Moved disk from #{source} to #{destination} : #{@game_board}"
