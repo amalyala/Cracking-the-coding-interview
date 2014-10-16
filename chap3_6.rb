@@ -36,10 +36,31 @@ class AscendingSortStack
  
  # This method contains the logic to do the sorting.
  def sorting_logic
-   
+   if @stack[@i].any?
+    if @stack[@i].last > @stack[@i+1].last
+     @stack[@i+1] << @stack[@i]
+    elsif @stack[@i].last < @stack[@i+1].last
+     @temp = @stack[@i].pop
+     keep_checking
+     @stack[@i+1] << @temp
+    end 
+   elsif @stack[@i].empty?
+    puts "Empty Stack".red
+   end
  end
+ 
+ def keep_checking
+  if @stack[@i+1].any?
+   if @temp < @stack[@i+1].last
+    @stack[@i] << @stack[@i+1].pop
+  end
+  keep_checking
+  else
+  return
+ end
+end
 
-end 
+end
 
 @obj = AscendingSortStack.new
 @obj.enqueue 5
