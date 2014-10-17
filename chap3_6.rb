@@ -36,37 +36,42 @@ class AscendingSortStack
  
  # This method contains the logic to do the sorting.
  def sorting_logic
-   if @stack[@i].any?
-    if @stack[@i].last > @stack[@i+1].last
-     @stack[@i+1] << @stack[@i]
-    elsif @stack[@i].last < @stack[@i+1].last
+ # Perform this logic when Stack 1 is not empty.
+  if @stack[@i].any?
+  # If Stack 1 element is greater than Stack 2 ? Push Stack 1's top element directly into Stack 2
+   if @stack[@i].last > @stack[@i+1].last
+     @stack[@i+1] << @stack[@i].pop
+   # If Stack 1 element is less than Stack 2 ? Perform below logic.
+   elsif @stack[@i].last < @stack[@i+1].last
      @temp = @stack[@i].pop
      keep_checking
      @stack[@i+1] << @temp
-    end 
-   elsif @stack[@i].empty?
-    puts "Empty Stack".red
    end
+   sorting_logic # Recursive call untill all elements in Stack 1 is empty.
+   elsif @stack[@i].empty?
+    puts "Your Stack is sorted ".cyan
+    p @stack[@i+1]
+  end
  end
  
+ # This method is called to keep checking for elements in Stack 1 less than Stack 2.
  def keep_checking
-  if @stack[@i+1].any?
-   if @temp < @stack[@i+1].last
-    @stack[@i] << @stack[@i+1].pop
+ if @stack[@i+1].last != nil
+  if @temp < @stack[@i+1].last
+   @stack[@i] << @stack[@i+1].pop
+   keep_checking # Recursive call untill Stack 2 is empty.
+  elsif @temp > @stack[@i+1].last
+   return
   end
-  keep_checking
-  else
-  return
  end
-end
+ end
 
 end
 
 @obj = AscendingSortStack.new
 @obj.enqueue 5
-@obj.enqueue 6
 @obj.enqueue 3
 @obj.enqueue 2
 @obj.enqueue 9
+@obj.enqueue 9
 @obj.start_sorting
-p "#{@obj.stack}"
