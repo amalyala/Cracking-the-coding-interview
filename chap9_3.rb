@@ -41,12 +41,7 @@ class RotatedArray
  
  # This method is called to find out which is the starting element after rotations.
  def findingPivot
-  i = 0
-  while i <= @array.size-1
-   if @array[i] >= @ 
-    
-   end
-  end
+ end
  
  end
  
