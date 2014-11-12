@@ -43,7 +43,7 @@ class Anagrams
    puts "Your new array is #{@new_array}".green
    puts "-------------------------------------"
  end
- 
+
 end
 
 @ob = Anagrams.new
