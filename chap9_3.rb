@@ -20,7 +20,7 @@ class RotatedArray
  def rotatingArray
   puts "\nRotating array random number of times ...".cyan
   sleep 1
-  @array.rotate!(rand(10)) # Rotates array random number of times.
+  @array.rotate!(-5) # Rotates array random number of times.
   p @array
   findElement # Calling this method to ask user
  end
@@ -43,11 +43,20 @@ class RotatedArray
  # This method is called to find out which is the starting element after rotations.
  def findingPivot
   @array.each_with_index do |element,index|
-   if index == 0 or index == @size
-    next # Skip the iterating if its either first or the last element of array.
-   end
-   if element > @array[index-1] and element > @array[index+1]
-     @number_of_rotations = index
+   if index == 0 
+    if element > @array[index+1]
+     @number_of_rotations = index+!
+     modifiedBinarySearch # calling modified binary search.
+     return
+    end
+   elsif index == @size
+    if element > @array[index+1]
+     @number_of_rotations = index+1
+     modifiedBinarySearch # calling modified binary search.
+     return
+    end   
+   elsif element > @array[index-1] and element > @array[index+1]
+     @number_of_rotations = index+1
      puts "\nThis array is rotated #{@number_of_rotations} number of times.".yellow
      modifiedBinarySearch # calling modified binary search.
      return
