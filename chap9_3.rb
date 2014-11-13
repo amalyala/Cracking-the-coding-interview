@@ -18,16 +18,17 @@ class RotatedArray
  
  # This method rotates given array "random" number of times.
  def rotatingArray
-  puts "\n Rotating array random number of times ...\n".cyan
+  puts "\nRotating array random number of times ...".cyan
   sleep 1
-  @rotated_array = @array.rotate(rand(10)) # Rotates array random number of times.
+  @array.rotate!(rand(10)) # Rotates array random number of times.
+  p @array
   findElement # Calling this method to ask user
  end
  
  # This method asks user to tell which element to find from array
  def findElement
-  puts "Please enter your number to find".cyan
-  @element = gets.chomp.to_i
+  puts "\nPlease enter your number to find".cyan
+  @element = gets.to_i
   searchStart # Method called.
  end
  
@@ -37,46 +38,58 @@ class RotatedArray
   # Logic: Here, when a sorted array is rotated, we can see that only one element has prev and next element greater than-
   # an element. That particular element is the starting element. Example '4' in this array: ['12','13','15','4','5','6','7'].
   findingPivot # Method to find starting element.
-  modifiedBinarySearch # This method gives us output.  
  end
  
  # This method is called to find out which is the starting element after rotations.
  def findingPivot
-  @rotated_array.each_with_index do |element,index|
-   if index == 0 or index == @rotated_array.size-1
+  @array.each_with_index do |element,index|
+   if index == 0 or index == @size
     next # Skip the iterating if its either first or the last element of array.
    end
-   if element > @rotated_array[index-1] and element > @rotated_array[index+1]
-     @number_of_rotations = index+1
-     puts "This array is rotated #{@number_of_rotations} number of times.".yellow
+   if element > @array[index-1] and element > @array[index+1]
+     @number_of_rotations = index
+     puts "\nThis array is rotated #{@number_of_rotations} number of times.".yellow
+     modifiedBinarySearch # calling modified binary search.
      return
    end
   end
-    modifiedBinarySearch # calling modified binary search.
  end
 
  def modifiedBinarySearch
-  if @rotated_array[@number_of_rotations] == @element
-   puts "Found value at position #{@number_of_rotations}".green
-   p @rotated_array
+  if @array[@number_of_rotations] == @element
+   puts "\nFound value at position #{@number_of_rotations}".green
+   p @array
    return
-  elsif @element > @rotated_array[0]
+  elsif @element > @array[0]
    performingSorting(0,@number_of_rotations) # Perform binary Search only for first half.
-  elsif @element < @rotated_array[0] 
+  elsif @element < @array[0] 
    performingSorting(@number_of_rotations,@size) # Perform binary Search only for second half.
   end  
  end
  
  # Performing modified binary search.
  def performingSorting(head,tail)
+   # Base condition for recursive call
+  if tail - head == 1
+   if @array[head] == @element
+    puts "\nFound element #{@element} at position #{head} in array".green
+    return
+   elsif @array[tail] == @element
+    puts "\nFound element #{@element} at position #{tail} in array".green
+    return
+   else
+    puts "\nElement #{@element} not found".red
+    return    
+   end 
+  end  
   middle = (head + tail) / 2    
-  if @rotated_array[middle] == @element
+  if @array[middle] == @element
    puts "---------------------------------------------------------".green
    puts "Found element #{@element} at position #{middle} in array".green
-   p @rotated_array
+   p @array
    puts "---------------------------------------------------------".green
    return
-  elsif @rotated_array[middle] < @element
+  elsif @array[middle] < @element
    head = middle
    performingSorting(head,tail) # Recursive call
   elsif @array[middle] > @element 
