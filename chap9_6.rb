@@ -32,16 +32,20 @@ class MatrixSortedSearch
   def startSearching
    # We will start comparing from the last element of array-
    # i.e. the right most top element in matrix.
-   while 
+   while @col <= @array.size-1 and @row > 0
     if @array[@row][@col] == @find
-     puts "Found the element #{@find} at position Row * Col = [#{@row}][#{@col}]"
+     puts "-------------------------------------------------------------------- ".green
+     puts "Found the element #{@find} at position Row * Col = [#{@row}][#{@col}]".green
+     puts "-------------------------------------------------------------------- ".green
      return
-    elsif @array[@row][@col] < @find
+    elsif @find < @array[@row][@col]
      @row -= 1 # move left to array
-    elsif @array[@row][@col] > @find 
+    elsif @find > @array[@row][@col]
      @col += 1 # move left to array
     end
   end 
+  puts "Number #{@find} not found".red
+end
 end
 
  @obj = MatrixSortedSearch.new()
