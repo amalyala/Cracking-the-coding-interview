@@ -6,6 +6,7 @@ class CircusTowerProblem
  def initialize
   # Constructing 2D array with 'height' and 'width' values given in question.
   @array = [[65,100],[70,150],[56,90],[75,190],[60,95],[68,110]]
+  @max_seq_array = [] # We use this array to store all the found sequences.
   puts "\nGiven array is ".yellow
   p @array
   findMaxSequence # Method call to start solving.
@@ -41,25 +42,36 @@ class CircusTowerProblem
  # form traversing whole array.
  def calculateMaxSequence
   # initializing variables.
-  max_sequence = 0
+  sequence_length = 1
   count = 0
   height = 0
   weight = 0
   # Iterating over array and checking whether each height and weight is less than next ones.
   while count < @array.size-1 
-   puts "#{height} #{weight} #{count}"
-   if @array[height][weight] < @array[height+1][weight] # If height condition satisfies
-    if @array[height][weight+1] < @array[height+1][weight+1] # If weight condition also satisfies
-     max_sequence += 1 # Increasing sequence counter
+  
+   if @array[height][weight] <= @array[height+1][weight] # If height condition satisfies
+    if @array[height][weight+1] <= @array[height+1][weight+1] # If weight condition also satisfies
+     sequence_length += 1 # Increasing sequence counter
      height += 1
     end 
-    # elsif @array[height][weight] > @array[height][weight+1]
+   elsif @array[height][weight] > @array[height+1][weight] # height doesnt satisfy condition. 
+    @max_seq_array << sequence_length # Pushing the previously stored sequence length into our buffer array.
+    sequence_length = 1 # Again starting with fresh sequnce_length
+    height += 1 
    end 
    count += 1
   end
 
   puts "\n-------------------------------------------- ".green
-  puts "The maximum sequence found is '#{max_sequence+1}'".green
+  if !@max_seq_array.max.nil?  # If @max_seq_array is not nil.
+   if @max_seq_array.max >= sequence_length # Taking the maximum among both
+    puts "The maximum sequence found is '#{@max_seq_array.max}'".green
+   elsif @max_seq_array.max < sequence_length
+    puts "The maximum sequence found is '#{sequence_length}'".green
+   end
+  elsif @max_seq_array.max.nil?
+   puts "The maximum sequence found is '#{sequence_length}'".green
+  end
   puts "-------------------------------------------- ".green
  end
 end
