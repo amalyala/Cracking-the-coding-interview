@@ -33,6 +33,7 @@ class BinaryTree
   answer = gets.chomp
   if answer.downcase == 'y'
    constructBinaryTree # If user says "yes" then we construct the binary tree
+   findBalancedTree(@root) # Calling method to find whether binary tree is balanced or not.
   elsif answer.downcase == 'r'
    @node_values = []
    ask_for_user_values
@@ -73,45 +74,53 @@ class BinaryTree
    end
   end
  end
- 
- # This method asks user to enter value to "Find" a node in tree
- def callSearchMethod	
-  puts "\nPlease Enter Node value to search".yellow
-  find_element = gets.chomp
-  # Checking if user hasnt entered anything.
-  if find_element.nil?
-   puts "Nothing to find".red
-   return
-  end
-  found = searchNode(find_element,@root) # Method call to search the node, starting from root.
-  if found > 0 
-    puts "\nNode #{find_element} found in tree #{@count} times.".green
-  elsif found == 0
-    puts "\nNode #{find_element} not present in tree".red
-  end
-  @count = 0 # Reset the value
+
+ # This method is to find whether a binary tree is balanced or not.
+ # In this method we traverse each node in binary tree using In-order traversal and -
+ # for each node traversed, we find its left and right subtree heights.
+ def findBalancedTree(current)
+   # Base case for the recursion
+   if current.nil?
+    return
+   end   
+   # Get the height of left sub-tree of node
+    left_height = getLeftSubtreeHeight(current.left)
+   # Get the height of right sub-tree of node
+    right_height = getRightSubtreeHeight(current.right)
+   # Getting the difference of the two left and right subtrees
+    difference = left_height - right_height
+   # Find whether subtree heights differ more than 1
+    if difference.abs > 1
+     puts "Binary tree is not balanced".red
+     return     
+    end
+    # Performing In-order traversal
+    findBalancedTree(current.left)
+  # print "--> #{current.value}".cyan  
+    findBalancedTree(current.right)    
  end
  
- # Method to search the given value in our tree.
- # We use In-order traversal to in this method to find. 
- def searchNode(find_element,current)
-  if current.nil?  # Base condition for recursive call.
-   return
+ # Returning the height of left subtree
+ def getLeftSubtreeHeight(current)
+  if current.nil?
+   return -1
   end
-  if find_element == current.value
-   print "-->#{current.value}".cyan # If element is found
-   @count += 1
-  elsif find_element != current.value
-   print "-->#{current.value}".yellow
-  end
-  searchNode(find_element,current.left)  # Recursive call for 'Left' subtree
-  searchNode(find_element,current.right) # Recursive call for 'Right' subtree
-  return @count
+  height = getLeftSubtreeHeight(current.left)
+  return height
  end
+ 
+ # Returning the height of right subtree
+ def getRightSubtreeHeight(current)
+  if current.nil?
+   return -1
+  end
+  height = getRightSubtreeHeight(current.right)
+  return height
  end 
+end 
 
 @obj = BinaryTree.new
-
+@obj.findBalancedTree
 
 
 
