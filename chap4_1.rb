@@ -34,6 +34,7 @@ class BinaryTree
   if answer.downcase == 'y'
    constructBinaryTree # If user says "yes" then we construct the binary tree
    findBalancedTree(@root) # Calling method to find whether binary tree is balanced or not.
+   puts "" 
   elsif answer.downcase == 'r'
    @node_values = []
    ask_for_user_values
@@ -96,8 +97,8 @@ class BinaryTree
     end
     # Performing In-order traversal
     findBalancedTree(current.left)
-  # print "--> #{current.value}".cyan  
-    findBalancedTree(current.right)    
+    print "--> #{current.value}".cyan  
+    findBalancedTree(current.right)   
  end
  
  # Returning the height of left subtree
@@ -105,8 +106,9 @@ class BinaryTree
   if current.nil?
    return -1
   end
-  height = getLeftSubtreeHeight(current.left)
-  return height
+  left = getLeftSubtreeHeight(current.left)  # Using recursion
+  right = getLeftSubtreeHeight(current.right) # Using recursion
+  return ([left,right].max + 1)
  end
  
  # Returning the height of right subtree
@@ -114,13 +116,13 @@ class BinaryTree
   if current.nil?
    return -1
   end
-  height = getRightSubtreeHeight(current.right)
-  return height
+  left = getRightSubtreeHeight(current.left)  # Using recursion
+  right = getRightSubtreeHeight(current.right)  # Using recursion
+  return [left,right].max + 1
  end 
 end 
 
 @obj = BinaryTree.new
-@obj.findBalancedTree
 
 
 
