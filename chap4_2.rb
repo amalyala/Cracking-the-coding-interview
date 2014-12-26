@@ -3,61 +3,93 @@ require 'colorize'
 
 # This class is to create node in the graph
 class Node
+ attr_accessor :value,:edges
  def initialize(value)
   @value = value
-  @edge = []
-  puts "Vertice #{value} is created.".green
+  @edges = []
+  puts "Node #{value} is created".green
  end
 end
 
+
 class Graph
  def initialize
-  vertices = []
   @total_vertices = []
- end
- 
- # This method sets flow for creation of directed graph
- def directedGraph
-  puts "\nPlease enter the Source vertice and Destination vertice seperated by 'comma'".cyan
-  puts "Example: \"A,B\" creates an directed edge between A -> B".yellow
-  response = gets.chomp.upcase
-  vertices = response.split(',')
-  createVertices(vertices) # Calling method to create vertices for the graph.
- end
- 
- # This method sets flow for creation of un-directed graph
- def unDirectedGraph
- end
+ end 
 
- def createVertices(vertices)
-  # Creating vertices of directed graph
-  vertices.each do |f|
-   # Checking if vertice is already present in the graph
-   if @total_vertices.include? f
-    next
-   # Checking if vertice is not present in the graph
-   elsif !@total_vertices.include? f
-    # We create vertice in the graph and then store in total_vertices array list to keep track of it
-    Node.new(f)
+ # Creating vertices of the graph
+ def enterVertices
+  puts "Please enter number of vertices in your graph".cyan
+  count = gets.chomp
+  if count =~ /^\d+$/
+   count.to_i.times do 
+    puts "\nEnter the Vertex value".yellow
+    addVertex(gets.chomp.upcase)
    end
+  else
+   puts "Invalid entry".red 
   end
+ end
+ 
+ # Creating edges of the graph
+ def enterEdges
+  puts "\nCreate a directed edge between source and destination.\nEnter the source value".yellow
+  source = gets.chomp.upcase
+  puts "Enter the destination value".yellow
+  destination = gets.chomp.upcase
+  addDirectedEdge(source,destination)
+ end
+ 
+ # Method to add vertex to the graph
+ def addVertex(value)
+  if !@total_vertices.include? value
+   # Storing all the vertices inside an array
+   @total_vertices << Node.new(value)
+  end
+ end
+ 
+ # Method to add directed edge between two vertices
+ def addDirectedEdge(source,destination)
+   @total_vertices.each do |f|
+    if f.value == source
+     source = f
+    end
+   end
+   @total_vertices.each do |f|
+    if f.value == destination
+     destination = f
+    end
+   end
+   source.edges << destination
+   puts "Directed Edge created between #{source.value} -> #{destination.value}".yellow
+ end
+ 
+ # This method is to find the list of neigbhouring vertices of a particular node
+ def findNeighbours(find)
+   if !find.nil?
+    @total_vertices.each do |f|
+     if f.value == find
+      puts "Neibhouring vertices are ".green
+      f.edges.each do |f| 
+       puts f.value
+      end
+     end
+    end
+   else
+    puts "Invalid entry".red
+   end
  end
  
 end
 
 @obj = Graph.new
-puts "\nWhat kind of graph are you trying to create ?\nPress 1 or 2 based on your response.".cyan
-puts "1.Directed Graph".yellow
-puts "2.Un-Directed Graph".yellow
-response = gets.to_i
-# Checking for the reponse of the user
-if response == 1
- # Process for creating directed graph
- @obj.directedGraph
-elsif response == 2
- # Process for creating un-directed graph
- @obj.unDirectedGraph
-else
- # If user entered invalid response
- puts "Invalid response".red
-end
+@obj.enterVertices
+@obj.enterEdges
+# Asking user to enter the node value to find its neigbhouring vertices
+puts "\nPlease enter the vertex value to find its neighbouring edges".cyan
+find = gets.chomp.upcase
+@obj.findNeighbours(find)
+
+
+
+ 
