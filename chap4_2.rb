@@ -1,5 +1,6 @@
 # Program to check if there is a route between two give node values in an undirected graph.
 require_relative '../Data-Structures-and-algorithms/dfs_graph'
+require_relative '../Data-Structures-and-algorithms/bfs_graph'
 require 'colorize'
 
 # This class is to create node in the graph
@@ -46,7 +47,7 @@ class Graph
 			addVertex(source);
 		end
 		if !hasVertex(dest)
-			addVertex(dest);
+			addVertex(dest)
 		end
 		@graphSet.merge!("#{source}" => @graphSet.fetch(source)<< edge_vertices[1])
 		else
@@ -111,4 +112,5 @@ end
 @graphSet = @u.printGraph
 @dfs = DfsGraph.new
 @dfs.dfsAlgo(@graphSet)
-
+@bfs = BfsGraph.new
+@bfs.bfsAlgo(@graphSet)
